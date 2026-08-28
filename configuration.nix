@@ -212,7 +212,9 @@
 
   # power management
   #powerManagement.scsiLinkPolicy = "max_performance";
+  # asus notebook control
   services.asusd.enable = true;
+  systemd.tmpfiles.rules = [ "d /etc/asusd 0755 root root -" ];
 
   # device rules that apply automatically whenever a matching drive/module is detected
   services.udev.extraRules = ''
