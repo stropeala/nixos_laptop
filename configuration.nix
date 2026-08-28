@@ -260,14 +260,32 @@
     };
   };
 
-  security.pam.services.sudo.howdy.enable = true;
-  security.pam.services.sudo.howdy.control = "sufficient";
+  security.pam.services = {
+    sudo.howdy = {
+      enable = true;
+      control = "sufficient";
+    };
 
-  security.pam.services.login.howdy.enable = true;
-  security.pam.services.login.howdy.control = "sufficient";
+    login.howdy = {
+      enable = true;
+      control = "sufficient";
+    };
 
-  security.pam.services.sddm.howdy.enable = true;
-  security.pam.services.sddm.howdy.control = "sufficient";
+    kde.howdy = {
+      enable = true;
+      control = "sufficient";
+    };
+
+    sddm.howdy = {
+      enable = true;
+      control = "sufficient";
+    };
+
+    kscreenlocker.howdy = {
+      enable = true;
+      control = "sufficient";
+    };
+  };
 
   #========  MOUNTS
   fileSystems."/mnt/WINDOWS169" = {

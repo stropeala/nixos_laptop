@@ -138,7 +138,7 @@
   "auto_update": false,
   "hover_popover_delay": 150,
   "seed_search_query_from_cursor": "selection",
-  "scroll_sensitivity": 0.69,
+  "scroll_sensitivity": 2.69,
   "scroll_beyond_last_line": "off",
   "vertical_scroll_margin": 5,
   "show_wrap_guides": true,
