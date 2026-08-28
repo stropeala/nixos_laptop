@@ -124,6 +124,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "video"
     ];
     shell = pkgs.fish;
     packages = with pkgs; [
@@ -281,10 +282,7 @@
       control = "sufficient";
     };
 
-    kscreenlocker.howdy = {
-      enable = true;
-      control = "sufficient";
-    };
+    polkit-1.howdy.enable = false;
   };
 
   #========  MOUNTS
