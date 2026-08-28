@@ -1,0 +1,61 @@
+[
+  // ── Workspace-wide bindings ─────────────────────────────
+  {
+    "context": "Workspace",
+    "bindings": {
+      // Tasks
+      "alt-q": ["task::Spawn", { "task_name": "Run Python File" }],
+      "alt-a": ["task::Spawn", { "task_name": "Run Rust Main" }],
+      "alt-s": ["task::Spawn", { "task_name": "Run Rust Bin" }],
+      // Panels
+      "alt-z": "workspace::ToggleBottomDock",
+      "alt-/": "workspace::ToggleRightDock",
+      "alt-t": "workspace::NewTerminal",
+    },
+  },
+
+  // ── Context overrides ───────────────────────────────────
+  // Free alt-t inside the terminal so the shell receives it.
+  {
+    "context": "Terminal",
+    "bindings": {
+      "alt-t": null,
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-2": "git_panel::ToggleFocus",
+    },
+  },
+  {
+    "context": "Workspace",
+    "unbind": {
+      "alt-0": "git_panel::ToggleFocus",
+    },
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "alt-2": "git_panel::ToggleFocus",
+    },
+  },
+  {
+    "context": "Pane",
+    "unbind": {
+      "alt-0": "git_panel::ToggleFocus",
+    },
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "alt-t": "workspace::NewTerminal",
+    },
+  },
+  {
+    "context": "Terminal",
+    "unbind": {
+      "ctrl-shift-t": "workspace::NewTerminal",
+    },
+  },
+]

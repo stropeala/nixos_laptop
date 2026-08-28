@@ -1,0 +1,85 @@
+[
+  // ── Python ──────────────────────────────────────────────
+  {
+    "label": "Run Python File",
+    "command": "python3",
+    "args": ["$ZED_FILE"],
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "Run Python File (New Terminal)",
+    "command": "python3",
+    "args": ["$ZED_FILE"],
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true,
+    "reveal": "always",
+  },
+  {
+    "label": "Run Python with Args",
+    "command": "python3",
+    "args": ["$ZED_FILE", "$ZED_CUSTOM_arg1"],
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "Run Flask App",
+    "command": "flask",
+    "args": ["run", "--debug"],
+    "cwd": "$ZED_DIRNAME",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+
+  // ── Rust ────────────────────────────────────────────────
+  // Runs the currently open file as a cargo binary.
+  // $ZED_STEM = filename without .rs, which is the bin name.
+  {
+    "label": "Run Rust Bin",
+    "command": "cargo",
+    "args": ["run", "--bin", "$ZED_STEM"],
+    "cwd": "$ZED_DIRNAME",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "Run Rust Tests (current bin)",
+    "command": "cargo",
+    "args": ["test", "--bin", "$ZED_STEM"],
+    "cwd": "$ZED_DIRNAME",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "Run Rust Main",
+    "command": "cargo",
+    "args": ["run"],
+    "cwd": "$ZED_DIRNAME",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "Exercism: Test",
+    "command": "cargo",
+    "args": ["test"],
+    "cwd": "$ZED_DIRNAME",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "Exercism: Test (show output)",
+    "command": "cargo",
+    "args": ["test", "--", "--nocapture"],
+    "cwd": "$ZED_DIRNAME",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+]
