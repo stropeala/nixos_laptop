@@ -231,6 +231,44 @@
     BROWSER = "brave";
   };
 
+  #========  HOWDY
+  services.howdy = {
+    enable = true;
+    settings = {
+      video = {
+        device_path = "/dev/video2";
+        device_format = "GREY";
+        frame_width = 640;
+        frame_height = 360;
+        frame_type = -1;
+        crop_top = -1;
+        crop_bottom = -1;
+        crop_left = -1;
+        crop_right = -1;
+        rotate = 0;
+        recording_plugin = "opencv";
+        device_fps = -1;
+        use_cnn = false;
+        timeout = 5;
+        dark_threshold = 60;
+        video_certainty = 3.5;
+        end_report = false;
+        model_selection = 0;
+        force_mjpeg = false;
+      };
+      core.use_landmark_detector = true;
+    };
+  };
+
+  security.pam.services.sudo.howdy.enable = true;
+  security.pam.services.sudo.howdy.control = "sufficient";
+
+  security.pam.services.login.howdy.enable = true;
+  security.pam.services.login.howdy.control = "sufficient";
+
+  security.pam.services.sddm.howdy.enable = true;
+  security.pam.services.sddm.howdy.control = "sufficient";
+
   #========  MOUNTS
   fileSystems."/mnt/WINDOWS169" = {
     device = "/dev/disk/by-uuid/641A67331A670182";
@@ -321,6 +359,7 @@
     jetbrains-mono
     kdePackages.partitionmanager
     asusctl
+    v4l-utils
 
     # kde plasma sddm login screen wallpaper
     (pkgs.writeTextDir "share/sddm/themes/breeze/theme.conf.user" ''
