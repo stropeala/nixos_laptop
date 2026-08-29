@@ -396,6 +396,7 @@
     # apps
     zapzap
     tidal-hifi
+    high-tide
     legcord
     bleachbit
     onlyoffice-desktopeditors

@@ -41,6 +41,8 @@
 
         modules = [
           ./configuration.nix
+          { nix.registry.nixpkgs.flake = nixpkgs; }
+
           #========  APPS
           # areofyl-fetch
           ({ pkgs, ... }: {
@@ -51,8 +53,6 @@
               areofyl-fetch.packages.${pkgs.system}.default
             ];
           })
-
-          { nix.registry.nixpkgs.flake = nixpkgs; }
 
           #========  HOME MANAGER MODULES
           home-manager.nixosModules.home-manager
