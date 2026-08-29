@@ -95,7 +95,7 @@
   #========  DESKTOP ENVIRONMENT
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  #services.xserver.enable = true;
+  # services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
@@ -115,21 +115,11 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    # jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
-    #media-session.enable = true;
-
-    # lower default audio latency — quantum/rate of 64/4800
-    extraConfig.pipewire."92-low-latency" = {
-      "context.properties" = {
-        "default.clock.rate" = 48000;
-        "default.clock.quantum" = 64;
-        "default.clock.min-quantum" = 64;
-        "default.clock.max-quantum" = 64;
-      };
-    };
+    # media-session.enable = true;
   };
 
   #========  TOUCHPAD
@@ -173,11 +163,11 @@
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
-    #dedicatedServer.openFirewall = true;
+    # dedicatedServer.openFirewall = true;
   };
 
   # zen kernel
-  #boot.kernelPackages = pkgs.linuxPackages_zen;
+  # boot.kernelPackages = pkgs.linuxPackages_zen;
 
   # latest vanilla linux kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -206,7 +196,7 @@
   # gamescope -W 1920 -H 1200 -f --mangoapp -- gamemoderun %command%
   programs.gamescope = {
     enable = true;
-    #capSysNice = true;
+    # capSysNice = true;
     env = {
       ENABLE_GAMESCOPE_WSI = "0";
     };
@@ -246,7 +236,8 @@
   hardware.enableRedistributableFirmware = true;
 
   # power management
-  #powerManagement.scsiLinkPolicy = "max_performance";
+  # powerManagement.scsiLinkPolicy = "max_performance";
+
   # asus notebook control
   services.asusd.enable = true;
   systemd.tmpfiles.rules = [ "d /etc/asusd 0755 root root -" ];
@@ -361,8 +352,8 @@
     # programming languages & tools
     rustup
     uv
-    #python3
-    #python3Packages.pip
+    # python3
+    # python3Packages.pip
     gcc
     pkg-config
     sqlite
@@ -392,10 +383,10 @@
     jaq # faster jq
 
     # gaming
-    #steam
-    #protonup-qt
+    # steam
+    # protonup-qt
     protonplus
-    #mangohud
+    # mangohud
 
     # proton suite
     proton-pass
