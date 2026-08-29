@@ -53,8 +53,7 @@
 
   #========  PROTON VPN
   xdg.configFile = {
-    "Proton/VPN/app-config.json" = ./manager/proton-vpn/app-config.json;
-    "Proton/VPN/settings.json" = ./manager/proton-vpn/settings.json;
+    "Proton/VPN/app-config.json".source = ./manager/proton-vpn/app-config.json;
   };
 
   #========  SSH
