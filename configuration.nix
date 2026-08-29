@@ -26,6 +26,12 @@
   nix.settings.auto-optimise-store = true;
   boot.tmp.cleanOnBoot = true;
 
+  # extra binary cache — huge overlap with nixpkgs
+  nix.settings.substituters = [ "https://nix-community.cachix.org" ];
+  nix.settings.trusted-public-keys = [
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+  ];
+
   #========  BOOT
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -48,6 +54,10 @@
 
   # Enable bluetooth
   hardware.bluetooth.enable = true;
+
+  # KDE Connect (already bundled with Plasma) needs the firewall opened to
+  # actually talk to your phone — notifications, media controls, file share
+  programs.kdeconnect.enable = true;
 
   # Configure network proxy if necessary
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -110,11 +120,21 @@
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
+
+    # lower default audio latency — quantum/rate of 64/4800
+    extraConfig.pipewire."92-low-latency" = {
+      "context.properties" = {
+        "default.clock.rate" = 48000;
+        "default.clock.quantum" = 64;
+        "default.clock.min-quantum" = 64;
+        "default.clock.max-quantum" = 64;
+      };
+    };
   };
 
   #========  TOUCHPAD
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   #========  USER
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -149,8 +169,6 @@
     enable32Bit = true;
   };
 
-  #services.xserver.videoDrivers = [ "amdgpu" ];
-
   #========  GAMING
   programs.steam = {
     enable = true;
@@ -164,23 +182,28 @@
   # latest vanilla linux kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # ntsync
-  #boot.kernelModules = [ "ntsync" ];
-  #services.udev.packages = [
-  #(pkgs.writeTextFile {
-  #name = "ntsync-udev-rules";
-  #text = ''KERNEL=="ntsync", MODE="0660", TAG+="uaccess"'';
-  #destination = "/etc/udev/rules.d/70-ntsync.rules";
-  #})
-  #];
+  # bbr & ntsync
+  boot.kernelModules = [
+    "tcp_bbr"
+    "ntsync"
+  ];
+
+  services.udev.packages = [
+    (pkgs.writeTextFile {
+      name = "ntsync-udev-rules";
+      text = ''KERNEL=="ntsync", MODE="0660", TAG+="uaccess"'';
+      destination = "/etc/udev/rules.d/70-ntsync.rules";
+    })
+  ];
 
   # gamemoderun %command%
   programs.gamemode = {
     enable = true;
     enableRenice = true;
+    settings.general.softrealtime = "auto";
   };
 
-  # gamescope -W 1920 -H 1600 -f --mangoapp -- gamemoderun %command%
+  # gamescope -W 1920 -H 1200 -f --mangoapp -- gamemoderun %command%
   programs.gamescope = {
     enable = true;
     #capSysNice = true;
@@ -190,12 +213,23 @@
   };
 
   boot.kernel.sysctl = {
-    "vm.max_map_count" = 2147483647;
+    "vm.max_map_count" = 2147483642;
     "vm.swappiness" = 150;
     "vm.page-cluster" = 0;
     "vm.dirty_bytes" = 268435456;
     "vm.dirty_background_bytes" = 67108864;
     "kernel.nmi_watchdog" = 1;
+
+    # networking — bbr + cake
+    "net.ipv4.tcp_congestion_control" = "bbr";
+    "net.core.default_qdisc" = "cake";
+    "net.ipv4.tcp_fin_timeout" = 5;
+
+    # SteamOS-style tweaks from nix-gaming's platformOptimizations
+    "kernel.sched_cfs_bandwidth_slice_us" = 3000;
+    "kernel.split_lock_mitigate" = 0;
+
+    "kernel.sysrq" = 0;
   };
 
   # kernel log
@@ -339,11 +373,23 @@
     nixd
     nil
 
+    # nix formatting/linting
+    nixfmt
+    statix
+    deadnix
+
     # filesystems
     ntfs3g
     gnutar
     xz
     zstd
+
+    # cli
+    fd # faster find
+    ripgrep # faster grep
+    dust # faster du
+    duf # faster df
+    jaq # faster jq
 
     # gaming
     #steam
@@ -372,7 +418,7 @@
     fastfetch
     kdePackages.filelight
     btop
-    jetbrains-mono
+    nerd-fonts.jetbrains-mono
     kdePackages.partitionmanager
     asusctl
     v4l-utils

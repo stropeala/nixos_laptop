@@ -27,7 +27,28 @@
       user.email = "petre.ispir2002@protonmail.com";
       init.defaultBranch = "main";
       pull.rebase = false;
+      diff.colorMoved = "default";
+      alias = {
+        s = "status --short --branch";
+        l = "log --graph --oneline --decorate";
+        pf = "push --force-with-lease";
+        undo = "reset --soft HEAD~1";
+        amend = "commit --amend --no-edit";
+      };
     };
+
+    # Settings -> SSH and GPG keys -> New SSH key -> key type "Signing Key"
+    signing = {
+      key = "~/.ssh/id_ed25519.pub";
+      signByDefault = true;
+      format = "ssh";
+    };
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options.dark = true;
   };
 
   #========  SSH
@@ -49,6 +70,45 @@
       fish_add_path "/home/lapstrop/.local/bin"
     '';
   };
+
+  #========  DEV WORKFLOW
+  # auto-loads/unloads a project's .envrc (env vars, nix develop shells) as
+  # you cd in and out of directories
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    enableFishIntegration = true;
+  };
+
+  #========  TERMINAL QOL
+  programs.eza = {
+    # nicer `ls` — icons, git status column, tree view
+    enable = true;
+    enableFishIntegration = true;
+    icons = "auto";
+    git = true;
+  };
+
+  programs.zoxide = {
+    # `z <partial-dir-name>` jumps to your most-used matching directory
+    enable = true;
+    enableFishIntegration = true;
+  };
+
+  programs.bat = {
+    # nicer `cat` — syntax highlighting, git diff markers, line numbers
+    enable = true;
+  };
+
+  programs.skim = {
+    # fuzzy finder (ctrl+r for history, ctrl+t for files) backed by ripgrep
+    enable = true;
+    enableFishIntegration = true;
+    defaultCommand = "rg --files --hidden --follow --glob '!.git'";
+  };
+
+  # use bat for colorized man pages too
+  home.sessionVariables.MANPAGER = "sh -c 'col -bx | bat -l man -p'";
 
   #========  KITTY
   programs.kitty = {
@@ -117,6 +177,35 @@
       position = "top-left";
       toggle_hud = "Shift_R+F12";
     };
+  };
+
+  #========  POWER MANAGEMENT
+  # auto-switch power profile on AC/battery
+  # "powerprofilesctl list" shows profiles
+  systemd.user.services.power-monitor = {
+    Unit = {
+      Description = "Auto-switch power profile on AC/battery change";
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = pkgs.writeShellScript "power-monitor.sh" ''
+        BAT=$(echo /sys/class/power_supply/BAT*)
+        AC_PROFILE="performance"
+        BAT_PROFILE="balanced"
+        while true; do
+          status=$(cat "$BAT/status" 2>/dev/null)
+          if [ "$status" = "Discharging" ]; then
+            ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set "$BAT_PROFILE"
+          else
+            ${pkgs.power-profiles-daemon}/bin/powerprofilesctl set "$AC_PROFILE"
+          fi
+          ${pkgs.inotify-tools}/bin/inotifywait -qq "$BAT/status" 2>/dev/null || sleep 30
+        done
+      '';
+      Restart = "on-failure";
+    };
+    Install.WantedBy = [ "default.target" ];
   };
 
   #========  KDE PLASMA WALLPAPER

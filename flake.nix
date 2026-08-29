@@ -52,6 +52,8 @@
             ];
           })
 
+          { nix.registry.nixpkgs.flake = nixpkgs; }
+
           #========  HOME MANAGER MODULES
           home-manager.nixosModules.home-manager
           {
