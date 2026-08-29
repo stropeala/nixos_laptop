@@ -1,0 +1,11 @@
+{
+    "tray_pinned_servers": [
+        "US",
+        "UK",
+        "DE",
+        "CH",
+        "RO"
+    ],
+    "connect_at_app_startup": "FASTEST",
+    "start_app_minimized": true
+}

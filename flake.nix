@@ -57,9 +57,12 @@
           #========  HOME MANAGER MODULES
           home-manager.nixosModules.home-manager
           {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.lapstrop = import ./home_manager.nix;
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.lapstrop = import ./home_manager.nix;
+              backupFileExtension = "hm-bak";
+            };
           }
         ];
       };

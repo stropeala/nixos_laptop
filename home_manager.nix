@@ -51,6 +51,12 @@
     options.dark = true;
   };
 
+  #========  PROTON VPN
+  xdg.configFile = {
+    "Proton/VPN/app-config.json" = ./manager/proton-vpn/app-config.json;
+    "Proton/VPN/settings.json" = ./manager/proton-vpn/settings.json;
+  };
+
   #========  SSH
   # ssh-keygen -t ed25519 -C "petre.ispir2002@protonmail.com"
   programs.ssh = {
@@ -71,7 +77,7 @@
     '';
   };
 
-  #========  DEV WORKFLOW
+  #========  DEV TOOLS
   # auto-loads/unloads a project's .envrc (env vars, nix develop shells) as
   # you cd in and out of directories
   programs.direnv = {
@@ -122,6 +128,8 @@
 
     settings = {
       shell = "/run/current-system/sw/bin/fish";
+
+      touch_scroll_multiplier = 2.69;
 
       background_opacity = "0.92";
       window_padding_width = 10;
@@ -211,6 +219,15 @@
   #========  KDE PLASMA WALLPAPER
   home.file."Pictures/Wallpapers/skyrim-night-wallpapers.png".source =
     ./manager/plasma/skyrim-night-wallpapers.png;
+
+  #========  AUTOSTART
+  xdg.autostart = {
+    enable = true;
+    readOnly = true;
+    entries = [
+      "${pkgs.proton-vpn}/share/applications/proton.vpn.app.gtk.desktop"
+    ];
+  };
 
   #========  MIMEAPPS.LIST DEFAULTS
   xdg.mimeApps = {
