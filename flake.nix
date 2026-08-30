@@ -30,10 +30,9 @@
     }:
     {
       nixosConfigurations.lapstrop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-
         modules = [
           ./configuration.nix
+          { nixpkgs.hostPlatform = "x86_64-linux"; }
           { nix.registry.nixpkgs.flake = nixpkgs; }
 
           #========  APPS
@@ -43,7 +42,7 @@
               areofyl-fetch.overlays.default
             ];
             environment.systemPackages = [
-              areofyl-fetch.packages.${pkgs.system}.default
+              areofyl-fetch.packages.${pkgs.stdenv.hostPlatform.system}.default
             ];
           })
 
