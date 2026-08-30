@@ -166,9 +166,6 @@
     # dedicatedServer.openFirewall = true;
   };
 
-  # zen kernel
-  # boot.kernelPackages = pkgs.linuxPackages_zen;
-
   # latest vanilla linux kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -234,9 +231,6 @@
 
   # amd cpu microcode updates
   hardware.enableRedistributableFirmware = true;
-
-  # power management
-  # powerManagement.scsiLinkPolicy = "max_performance";
 
   # asus notebook control
   services.asusd.enable = true;
@@ -342,6 +336,13 @@
 
   #========  PACKAGES
   programs.nix-index.enable = true;
+
+  # fonts
+  fonts.packages = with pkgs; [
+    jetbrains-mono
+    corefonts
+  ];
+
   environment.systemPackages = with pkgs; [
     # was here on install
     wget
@@ -352,8 +353,6 @@
     # programming languages & tools
     rustup
     uv
-    # python3
-    # python3Packages.pip
     gcc
     pkg-config
     sqlite
@@ -383,10 +382,7 @@
     jaq # faster jq
 
     # gaming
-    # steam
-    # protonup-qt
     protonplus
-    # mangohud
 
     # proton suite
     proton-pass
@@ -405,13 +401,13 @@
     brave
     vlc
     haruna
+    localsend
 
     # utilities
     fastfetch
     kdePackages.filelight
     btop
-    nerd-fonts.jetbrains-mono
-    kdePackages.partitionmanager
+    gparted
     asusctl
     v4l-utils
 

@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   home.stateVersion = "26.05";
@@ -214,6 +219,16 @@
     };
     Install.WantedBy = [ "default.target" ];
   };
+
+  #========  COREFONTS FOR ONLYOFFICE
+  home.activation.installCorefontsForOnlyOffice = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "$HOME/.local/share/fonts"
+    for f in ${pkgs.corefonts}/share/fonts/truetype/*.ttf; do
+      cp -f "$f" "$HOME/.local/share/fonts/"
+    done
+    chmod 644 "$HOME"/.local/share/fonts/*.ttf
+    ${pkgs.fontconfig}/bin/fc-cache -f "$HOME/.local/share/fonts" || true
+  '';
 
   #========  KDE PLASMA WALLPAPER
   home.file."Pictures/Wallpapers/skyrim-night-wallpapers.png".source =
