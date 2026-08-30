@@ -169,52 +169,69 @@
     "dock": "right",
 
     "default_model": {
-      "provider": "google",
-      "model": "gemini-3-flash-preview",
+      "provider": "zed.dev",
+      "model": "claude-sonnet-5",
+      "enable_thinking": true,
+      "effort": "high",
     },
     "inline_assistant_model": {
-      "provider": "google",
-      "model": "gemini-2.5-flash",
+      "provider": "zed.dev",
+      "model": "claude-sonnet-5",
+      "enable_thinking": true,
+      "effort": "high",
     },
     "thread_summary_model": {
-      "provider": "google",
-      "model": "gemini-2.5-flash",
+      "provider": "zed.dev",
+      "model": "claude-sonnet-5",
+      "enable_thinking": true,
+      "effort": "medium",
     },
     "commit_message_model": {
-      "provider": "google",
-      "model": "gemini-2.5-flash",
+      "provider": "zed.dev",
+      "model": "claude-sonnet-5",
+      "enable_thinking": true,
+      "effort": "medium",
     },
     "subagent_model": {
-      "provider": "google",
-      "model": "gemini-2.5-flash",
+      "provider": "zed.dev",
+      "model": "claude-sonnet-5",
+      "enable_thinking": true,
+      "effort": "medium",
     },
-  },
 
-  // ════════════════════════════════════════════════════════════
-  //  LANGUAGE MODELS
-  // ════════════════════════════════════════════════════════════
-  "language_models": {
-    "google": {
-      "available_models": [
-        {
-          "name": "gemini-3-flash-preview",
-          "display_name": "Gemini 3 Flash",
-          "max_tokens": 1000000,
-          "mode": { "type": "thinking", "budget_tokens": 24000 },
-        },
-        {
-          "name": "gemini-2.5-flash",
-          "display_name": "Gemini 2.5 Flash",
-          "max_tokens": 1000000,
-        },
-        {
-          "name": "gemini-2.5-pro",
-          "display_name": "Gemini 2.5 Pro (~50/day)",
-          "max_tokens": 1000000,
-          "mode": { "type": "thinking", "budget_tokens": 24000 },
-        },
-      ],
-    },
+    "favorite_models": [
+      {
+        "provider": "zed.dev",
+        "model": "claude-sonnet-5",
+        "enable_thinking": true,
+        "effort": "high",
+      },
+      {
+        "provider": "zed.dev",
+        "model": "claude-haiku-4-5",
+        "enable_thinking": true,
+      },
+      {
+        "provider": "zed.dev",
+        "model": "gpt-5.6-sol",
+        "enable_thinking": true,
+        "effort": "medium",
+      },
+      {
+        "provider": "zed.dev",
+        "model": "gpt-5.6-terra",
+        "enable_thinking": true,
+        "effort": "medium",
+      },
+      {
+        "provider": "zed.dev",
+        "model": "gpt-5.6-luna",
+        "enable_thinking": true,
+        "effort": "medium",
+      },
+    ],
+
+    "model_parameters": [],
   },
 
   "edit_predictions": {
@@ -229,6 +246,7 @@
   "terminal": {
     "shell": { "program": "fish" },
     "copy_on_select": true,
+    "cursor_shape": "bar",
     "detect_venv": {
       "on": {
         "directories": [".env", "env", ".venv", "venv"],
@@ -392,7 +410,7 @@
     },
     "rust-analyzer": {
       "binary": {
-        "path": "/home/nixostrop/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rust-analyzer",
+        "path": "/home/lapstrop/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rust-analyzer",
         "arguments": [],
       },
       "initialization_options": {
