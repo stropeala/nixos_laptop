@@ -52,7 +52,7 @@
           }
 
           #========  FLATPAK MODULE
-          nix-flatpak.nixosModule.nix-flatpak
+          nix-flatpak.nixosModules.nix-flatpak
 
           #========  AREOFYL-FETCH MODULE
           ({ pkgs, ... }: {
