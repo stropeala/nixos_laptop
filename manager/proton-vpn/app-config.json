@@ -6,6 +6,6 @@
         "CH",
         "RO"
     ],
-    "connect_at_app_startup": "DE",
+    "connect_at_app_startup": "FASTEST",
     "start_app_minimized": true
 }

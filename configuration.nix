@@ -343,6 +343,25 @@
     corefonts
   ];
 
+  # flatpak
+  services.flatpak = {
+    enable = true;
+
+    update.auto = {
+      enable = true;
+      onCalendar = "weekly";
+    };
+
+    packages = [
+      # tidal-hifi
+      {
+        appId = "com.mastermindzh.tidal-hifi";
+        origin = "flathub";
+      }
+    ];
+  };
+
+  # nixpkgs
   environment.systemPackages = with pkgs; [
     # was here on install
     wget
@@ -353,6 +372,7 @@
     # programming languages & tools
     rustup
     uv
+    bun
     gcc
     pkg-config
     sqlite
@@ -391,8 +411,6 @@
 
     # apps
     zapzap
-    tidal-hifi
-    high-tide
     legcord
     bleachbit
     onlyoffice-desktopeditors

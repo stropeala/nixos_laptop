@@ -5,16 +5,20 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
-    #========  APPS
-    # areofyl-fetch
-    areofyl-fetch = {
-      url = "github:areofyl/fetch";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     #========  HOME MANAGER
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    #========  FLATPAK
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak/?ref=latest";
+    };
+
+    #========  AREOFYL-FETCH
+    areofyl-fetch = {
+      url = "github:areofyl/fetch";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -24,8 +28,9 @@
     {
       self,
       nixpkgs,
-      areofyl-fetch,
       home-manager,
+      nix-flatpak,
+      areofyl-fetch,
       ...
     }:
     {
@@ -35,18 +40,7 @@
           { nixpkgs.hostPlatform = "x86_64-linux"; }
           { nix.registry.nixpkgs.flake = nixpkgs; }
 
-          #========  APPS
-          # areofyl-fetch
-          ({ pkgs, ... }: {
-            nixpkgs.overlays = [
-              areofyl-fetch.overlays.default
-            ];
-            environment.systemPackages = [
-              areofyl-fetch.packages.${pkgs.stdenv.hostPlatform.system}.default
-            ];
-          })
-
-          #========  HOME MANAGER MODULES
+          #========  HOME MANAGER MODULE
           home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -56,6 +50,19 @@
               backupFileExtension = "hm-bak";
             };
           }
+
+          #========  FLATPAK MODULE
+          nix-flatpak.nixosModule.nix-flatpak
+
+          #========  AREOFYL-FETCH MODULE
+          ({ pkgs, ... }: {
+            nixpkgs.overlays = [
+              areofyl-fetch.overlays.default
+            ];
+            environment.systemPackages = [
+              areofyl-fetch.packages.${pkgs.stdenv.hostPlatform.system}.default
+            ];
+          })
         ];
       };
     };
